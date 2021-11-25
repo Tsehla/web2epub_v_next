@@ -1,0 +1,36 @@
+{
+  "name": "web2epub",
+  "version": "1.0.0",
+  "description": "website to epub",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
+    "epub-gen": "^0.1.0",
+    "express": "^4.17.1",
+    "html-minifier": "^4.0.0",
+    "mongodb": "^3.6.4",
+    "os": "^0.1.2",
+    "path": "^0.12.7",
+    "puppeteer": "^10.1.0",
+    "puppeteer-extra": "^3.1.18",
+    "puppeteer-extra-plugin-adblocker": "^2.11.11",
+    "request": "^2.88.2",
+    "xvfb": "^0.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/Tsehla/web2epub"
+  },
+  "keywords": [
+    "web",
+    "to",
+    "epub"
+  ],
+  "author": "tsehla",
+  "license": "ISC"
+}

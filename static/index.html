@@ -1,0 +1,369 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/css/froala_blocks.min.css" rel="stylesheet" type="text/css" />
+        <link href="/css/index.css" rel="stylesheet" type="text/css">
+
+        <style>
+            @font-face {
+            font-family: 'Showcard_Gothic';
+            src: url('/SHOWG.TTF') format('truetype');
+            }
+            @font-face {
+            font-family: 'shredded';
+            src: url('/shredded.ttf') format('truetype');
+            }
+            #convert_to_epub_main_input::placeholder{
+                text-align: center;
+                color: white;
+                
+            }
+        </style> 
+    </head>
+    <body style="font-family: Arial, Helvetica, sans-serif;"> 
+        <div id="request_html_container" style="display: none;"></div>
+
+        <!-- -->
+        <div id="text_notification_container" style="width: 100%;height: auto;position: absolute;top:4vh;left: 0px;z-index: 7;display: none;">
+            <div id="text_notification" style="width: 40vw;max-width: 150px;min-height: 30px;box-shadow: 0px 1px 23px 4px black;background-color: white;color: black;border-radius: 6px; margin: 0px auto 0px auto; text-align: center;font-size: 20px;">
+                hello
+            </div>
+        </div>
+        <!-- alert-->
+        <div id="please_wait_1" style="width: 100%;height:100%;position: absolute;top:0;left:0;background-color: rgba(133, 133, 133, 0.518);display: none;z-index: 2;">
+                <div style="width: 81%;height: 35vh;/*background-color: #838383 */;background-color:white;margin: 30vh auto;box-shadow: 2px 3px 18px;max-width: 500px;border-bottom-left-radius: 30%;">
+                    <div style="width: 100%;height:80%;text-align: center;">
+                        <img src="imgs/worker.webp" style="height:100%;">
+                    </div>
+                    <div style="width: 100%;text-align: center;font-size: 18px;font-weight: 700;">
+                        Please wait ...
+                    </div>
+                </div>
+        </div>
+        <!-- progress update wait alert -->
+        <div id="please_wait_2" style="width: 100%;height:100%;position: absolute;top:0;left:0;background-color: rgba(133, 133, 133, 0.518);display: none;z-index: 2;">
+            <div style="width: 81%;height: 35vh;/*background-color: #838383 */;background-color:white;margin: 30vh auto;box-shadow: 2px 3px 18px;max-width: 500px;border-bottom-left-radius: 30%;">
+                <div style="width: 100%;height:64%;text-align: center;">
+                    <img src="imgs/worker.webp" style="height:100%;">
+                </div>
+                <div id="please_wait_2_wait_text" style="width: 100%;text-align: center;font-size: 18px;font-weight: 700;text-overflow: ellipsis;">
+                    Please wait ...
+                </div>
+                <div  style="width: 100%;text-align: center;font-size: 13px;font-weight: 700;height: 20px;overflow: hidden;color: #D40000;">
+                    <div style="width:80%;margin-left:auto;margin-right:auto">
+                        <div id="please_wait_2_chapter_name" style="width: 50%;height:100%;text-align: center;text-overflow: ellipsis;display: inline-block;overflow-y: hidden;">
+                            chapter 1
+                        </div>
+                        <div id="please_wait_2_chapter_numbers" style="width: 40%;height:100%;text-align: center;text-overflow: ellipsis;border-left:2px solid black;display: inline-block;vertical-align: top;">
+                            1/200
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 102%;text-align: center;font-size: 18px;font-weight: 700;height:20px">
+                    <div style="width: 80%;border: 1px solid black;margin: 10px auto;box-shadow: 1px 1px 2px black;">
+                        <div id="please_wait_2_chapter_progress" style="width:98%;height:99%;background-color: black;margin: 1%;"></div>
+                    </div>
+                </div>
+            </div>
+    </div>
+        <!-- confirm box -->
+        <div id="alert_box_1" style="width: 100vw;height:100vh;position: absolute;z-index: 2;top:0;left:0;background-color: #000000a3;display: none;">
+            <div style="width: 306px;height: 174px;background-color: white;margin: 37vh auto;border-bottom-right-radius: 50%;border-top-right-radius: 30px;text-align: center;color: black;opacity: 100%;box-shadow: 1px 4px 14px 0px white;">
+                <div style="width: 100%;height: 40px;line-height: 100px;">
+                    <img src="imgs/info.png" style="width: 57px;margin-top: -28px;">
+                </div>
+                <div id="alert_box_1_text" style="width: 100%;height: 91px;overflow-y: auto;line-height: 32px;font-size: 14px;">
+                    Are you sure you want to continue
+                </div>
+                <div id="alert_box_1_buttons" style="width: 100%;height:70px;text-align: center;margin-top: 0px;"></div>
+            </div>
+        </div>
+        <!-- load -->
+        <div id="load_screen" style="width: 100vw;height:100vh;position: absolute;z-index: 2;top:0;left:0;background-color: #000000a3;" onclick="div_hide_show(this.id, 'hide')">
+            <div style="width: 306px;height: 174px;background-color: white;margin: 37vh auto;border-bottom-right-radius: 50%;text-align: center;color: black;opacity: 100%;">
+                <div style="width: 100%;height:80px;line-height: 100px;font-size: 30px;font-family: Showcard_Gothic;">
+                    Web<i style="font-size: 50px;font-family: Arial, Helvetica, sans-serif;">2</i>Epub
+                </div>
+                <div style="width: 100%;height: 5px;">
+                    <div style="width: 80%;height: 100%;background-color: #808080;margin-left: auto;margin-right: auto;"></div>
+                </div>
+                <div style="width: 100%;height: 41px;line-height: 32px;font-size: 14px;">
+                    Convert Novel to Epub file
+                </div>
+                <div style="width: 100%;height:70px;text-align: center;margin-top: 0px;">
+                    <button style="width:150px;height: 25px;background-color: #90C418;border: 2px solid #597D04;display: inline-block;border-radius: 30px;"><img src="imgs/Multiply icon.png" style="height: 74px;margin-top: -27px;"></button>
+                </div>
+            </div>
+        </div>
+        <!-- menu 1 -->
+        <div style="width: 100vw;height: auto;margin-top: 30vh;">
+            <div style="width: 300px;margin-left: auto;margin-right: auto;">
+                <div style="width: 49.5%;height: 300px;display: inline-block;margin-right: -5px;">
+                    <div style="width: 98%;height: 49.5%;border: 2px solid black;margin-left: 2.5%;" onclick="menu_1(),main_menu_upper_layer_show(),div_hide_show('convert_to_epub_menu_container'),div_hide_show('process_start_restart_option_button')">
+                        <img src="imgs/Website icon.png" style="width: 60px;margin-top: 32%;margin-left: 30%;" alt="Enter book url">
+                    </div>
+                    <div style="width: 98%;height: 49.5%;border: 2px solid black;margin-top: 4%;margin-left: -0.5%;">
+                        <img src="imgs/Book icon.png" style="width: 34px;margin-top: 37%;margin-left: 39%;"  alt="Browse user created novels epub">
+                    </div>
+                </div>
+                <div style="width: 48.5%;height: 300px;display: inline-block;vertical-align: top;">
+                    <div style="width: 98%;height: 49.5%;border: 2px solid black;margin-left: 5%;margin-top: -28px;">
+                        <img src="imgs/Support icon.png" style="width: 86px;margin-top: 23%;margin-left: 18%;"  alt="View web to epub supported novels sites">
+                    </div>
+                    <div style="width: 98%;height: 49.5%;border: 2px solid black;margin-top: 1.5%;">
+                        <img src="imgs/Tv icon.png" style="width: 55px;margin-top: 30%;margin-left: 32%;"  alt="more options"> 
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- process start/restart float control-->
+        <!--restart-->
+        <i class="la la-plus"  id="process_start_restart_restart_button" style="color: black;width: 14vw;height: 14vw;min-height: 41px;min-width: 41;max-height: 60px;max-width: 60px;background-color: white;border: none;border-radius: 19px;position: absolute;bottom: 32vh;left: 2vw;z-index: 4;box-shadow: -1px -1px 13px 2px #d40000;background-color: white;text-align: center;display:none"><img src="/imgs/Reset icon.png" style="width:46px;margin-top: 8px" onclick="div_hide_show('process_start_restart_continue_button', 'hide'),div_hide_show('process_start_restart_restart_button', 'hide'),div_hide_show('please_wait_2', 'hide'),page_reload(), text_notification ('Restarting')"></i>
+        <!-- continue -->
+        <i class="la la-plus"  id="process_start_restart_continue_button" style="color: black;width: 14vw;height: 14vw;min-height: 41px;min-width: 41;max-height: 60px;max-width: 60px;background-color: white;border: none;border-radius: 19px;position: absolute;bottom: 47vh;left: 2vw;z-index: 4;box-shadow: -1px -1px 13px 2px #d40000;background-color: #90C418;text-align: center;display:none"><img src="/imgs/Sort Right icon.png" style="width:64px" onclick="div_hide_show('process_start_restart_continue_button', 'hide'),div_hide_show('process_start_restart_restart_button', 'hide'),request_chapter_webpage(true)"></i>
+        <!-- options menu -->
+        <!-- <div style="width: 80vw;max-width:800px;height: 83vh;min-height:400px;overflow-y: auto;background-color: #3C3A3A;margin: 5% auto"> -->
+            <i class="la la-plus" id="process_start_restart_option_button" style="color: black;width: 14vw;height: 14vw;min-height: 41px;min-width: 41;max-height: 60px;max-width: 60px;background-color: white;border: none;border-radius: 19px;position: absolute;bottom: 20vh;left: 2vw;z-index: 4;box-shadow: -1px -1px 13px 2px #d40000;background-color: #D40000;text-align: center;display: none;"><img src="imgs/Exclamation Mark icon.png" style="width:60px" onclick="div_hide_show('process_start_restart_continue_button', 'show'),div_hide_show('process_start_restart_restart_button', 'show')"></i>
+        <!-- </div> --> 
+
+        <!-- menu window scroller -->
+        <div id="menu_window_scroller" style="min-width:300px;width:100vw;min-height:500px;height: 90vh;position: absolute;background-color: #010c1638;top:0px;left:0px;overflow-y: auto;overflow-x: auto;display: none;">
+            <!-- Enter book url/menu viewer -->
+            <div id="convert_to_epub_menu_container" style="width: 91vw;max-width: 506px;height: 80vh;min-height: 400px;overflow-y: auto;background-color: rgb(60, 58, 58);margin: 1.6% auto;display: block;">
+                <div style="width: 80%;height: 40px;margin-left: auto;margin-right: auto;background-color: #696767;color: white;font-weight: 700;font-size: 30px;font-family: shredded;line-height: 40px;padding-left: 12px;text-shadow: -3px 0px 8px #0a0a0a, -1px -1px grey;letter-spacing: 2px;">
+                    Convert to Epub
+                    <button style="width:50px;height: 43px;background-color:#D3D3D3;float: right;border: none;"><img src="imgs/Multiply icon.png" style="height: 73px;margin-top: -16px;margin-left: -19px;" onclick="div_hide_show('convert_to_epub_menu_container', 'hide'),main_menu_upper_layer_hide(),div_hide_show('process_start_restart_option_button', 'hide')"></button>
+                </div>
+
+
+                <div id="convert_to_epub_menu_contents" style="width: 100%;height: 78px;min-width: 300px;/* border-radius: 36px; */margin-top: 56px;">
+                    <!-- main url input -->
+                    <div style="width: 100%;height: 78px;min-width: 300px;/* border-radius: 36px; */">
+                        <div style="width: 80%;height:100%;margin-right: auto;margin-left: auto;border: 1px solid #D40000;text-align: center;color: white;border-radius: 22px;line-height: 78px;font-size: 9px;">
+                            <input id="convert_to_epub_main_input" type="search" placeholder="Paste novel Table Of Content URL" style="width: 77%;height: 100%;background-color: transparent;border: none;font-size: 12px;color: white;" text-align="center"> 
+                            <button style="width: 34px;height:50px;background-color: transparent;border: none;margin: 0px;" onclick="url_main_help_button()">
+                                <img style="/* FONT-VARIANT: JIS04; */width:34px;margin: 0;" src="/imgs/info.png">
+                            </button>
+                        </div>
+                    </div>
+                    <div id="book_details_viewer_container" style="width: auto;height: auto;margin: 0px; display: none;"> 
+                        <!-- separator visual-->
+                        <div style="width: 100%;height: 10px;margin-top: 30px;">
+                            <div style="width: 90%;height: 3px;margin:2px auto;background-color: #D40000;"></div>
+                        </div>
+                        <!-- book -->
+                        <div style="width: 100%;height: 20px;text-align: center;color: white;font-size: 21px;margin-top: 4px;">
+                            Book Name
+                        </div>
+                        <div style="width: 100%;height: 10px;margin-top: 30px;">
+                            <div style="width: 71%;height: 20px;margin:2px auto;overflow-x: auto;">
+                                <input id="book_name" type="text" style="width:100%;height:20px;border:none;border-bottom:1px solid white;background-color: transparent;color: white;">
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 20px;text-align: center;color: white;font-size: 21px;margin-top: 10px;">
+                            Author
+                        </div>
+                        <div style="width: 100%;height: 10px;margin-top: 30px;">
+                            <div style="width: 71%;height: 20px;margin:2px auto;overflow-x: auto;">
+                                <input id="book_author" type="text" style="width:100%;height:20px;border:none;border-bottom:1px solid white;background-color: transparent;color: white;">
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 20px;text-align: center;color: white;font-size: 21px;margin-top: 10px;">
+                            Language
+                        </div>
+                        <div style="width: 100%;height: 10px;margin-top: 30px;">
+                            <div style="width: 71%;height: 20px;margin:2px auto;overflow-x: auto;">
+                                <input id="book_language" type="text" style="width:100%;height:20px;border:none;border-bottom:1px solid white;background-color: transparent;color: white;">
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 20px;text-align: center;color: white;font-size: 21px;margin-top: 10px;">
+                            File save name
+                        </div>
+                        <div style="width: 100%;height: 10px;margin-top: 30px;">
+                            <div style="width: 71%;height: 20px;margin:2px auto;overflow-x: auto;">
+                                <input id="book_save_name" type="text" style="width:100%;height:20px;border:none;border-bottom:1px solid white;background-color: transparent;color: white;">
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 20px;text-align: center;color: white;font-size: 21px;margin-top: 10px;">
+                            Cover image url
+                        </div>
+                        <div style="width: 100%;height: auto;margin-top: 30px;text-align: center;">                      
+                            <img id="book_cover_image" src="/imgs/Image icon.png" style="height:193px">
+                        </div>
+                        <div style="width: 100%;height: 10px;margin-top: 30px;">
+                            <div style="width: 71%;height: 20px;margin:2px auto;overflow-x: auto;">
+                                <input id="book_cover_image_link" type="text" style="width:100%;height:20px;border:none;border-bottom:1px solid white;background-color: transparent;color: white;">
+                            </div>
+                        </div>
+                        <div style="width: 100%;height:auto;text-align: center;margin-top: 25px;">
+                            <button style="width: 60%;max-width: 300px;height: 40px;background-color: white;color: black;border-radius: 10px;border: none;font-size: 18px;">
+                                Advanced Options
+                            </button>
+                        </div>
+                        <div style="width: 100%;height:auto;text-align: center;margin-top: 25px;">
+                            <button style="width: 60%;max-width: 300px;height: 40px;background-color: white;color: black;border-radius: 10px;border: none;font-size: 18px;" onclick="epub_pack()">
+                                Pack Epub
+                            </button>
+                        </div>
+                        <!-- separator visual-->
+                        <div style="width: 100%;height: 10px;margin-top: 30px;">
+                            <div style="width: 90%;height: 3px;margin:2px auto;background-color: #D40000;"></div>
+                        </div>
+                        <div style="width: 100%;height:auto;text-align: center;margin-top: 15px;">
+                            <button style="width: 90%;max-width: 300px;height: 40px;background-color: transparent;color: white;border: 2px solid white;font-size: 18px;">
+                                Chapters
+                            </button>
+                        </div>
+                        <div style="width: 100%;height: 20px;text-align: center;color: white;font-size: 21px;margin-top: 22px;">
+                            Starting Chapter
+                        </div>
+                        <div style="width: 100%;height: 10px;margin-top: 30px;">
+                            <div style="width: 71%;height: 20px;margin:2px auto;overflow-x: auto;">
+                                <select id="book_starting_chapter_selection" type="text" style="width:100%;height:20px;border:none;border-bottom:1px solid white;background-color: transparent;color: white;">
+                                    <option value="chaper-url" style="background-color: #0a0a0a;">Chapter 2</option>
+                                    <option value="chaper-url" style="background-color: #0a0a0a;">Chapter 0</option>
+                                    <option value="chaper-url" style="background-color: #0a0a0a;">Chapter 1</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 20px;text-align: center;color: white;font-size: 21px;margin-top: 10px;">
+                            Ending Chapter
+                        </div>
+                        <div style="width: 100%;height: 10px;margin-top: 30px;">
+                            <div style="width: 71%;height: 20px;margin:2px auto;overflow-x: auto;">
+                                <select id="book_ending_chapter_selection" type="text" style="width:100%;height:20px;border:none;border-bottom:1px solid white;background-color: transparent;color: white;">
+                                    <option value="chaper-url" style="background-color: #0a0a0a;">Chapter 0</option>
+                                    <option value="chaper-url" style="background-color: #0a0a0a;">Chapter 1</option>
+                                    <option value="chaper-url" style="background-color: #0a0a0a;">Chapter 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="width: 100%;height: 20px;text-align: center;color: white;font-size: 15px;margin-top: 10px;margin-top: 25px;color: #D40000;">
+                            Total Chapters : <b id="selection_total_chaters">9</b>
+                        </div>
+                        <div style="width: 100%;height:100px;">
+                            <div style="width: 99%;max-width: 291px;height:100%;margin-left: auto;margin-right: auto;border: 1px solid white;margin-top: 53px;border-radius: 8px;font-size: 11px;min-width: 316px;">
+                                <div style="width: 100%;height:50%;">
+                                    <button style="width: 23%;height: 100%;background-color: white;margin-right: -6px;border-top-left-radius: 8px;/* font-size: 15px; */margin-left: auto;margin-right: auto;" onclick="chapters_select_unselect_all('check-all')">
+                                        Select all
+                                    </button>
+                                    <button style="width: 32%;height: 100%;background-color: white;margin-right: 2px;/* font-size: 15px; */margin-left: auto;margin-right: auto;" onclick="chapters_select_unselect_all('uncheck-all')" >
+                                        Unselect all
+                                    </button>
+                                    <button style="width: 43%;height: 100%;background-color: white;margin-left: -8px;border-top-right-radius: 8px;/* font-size: 15px; *//* font-size: 15px; */margin-left: auto;margin-right: auto;">
+                                        Save URLs as txt
+                                    </button>
+                                </div>
+                                <div style="width: 100%;height:50%">
+                                    <button style="width: 50%;height: 100%;background-color: white;margin-right: -6px;border-bottom-left-radius: 8px;/* font-size: 15px; */margin-left: auto;margin-right: auto;">
+                                        Reverse URLs Order
+                                    </button>
+                                    <button style="width: 49%;height: 100%;background-color: white;margin-left: -8px;border-bottom-right-radius: 8px;/* font-size: 15px; */margin-left: auto;margin-right: auto;">
+                                        Open selcted URLs
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- chapters -->
+                        <div style="width: 100%;height: 20px;text-align: center;color: white;font-size: 16px;margin-top: 13px;">
+                            Selected Director Module
+                        </div>
+                        <div style="width: 100%;height: 10px;margin-top: 18px;margin-bottom: 35px;">
+                            <div style="width: 71%;height: 20px;margin:2px auto;overflow-x: auto;">
+                                <select id="book_selected_director_module" style="width:100%;height:20px;border:none;border-bottom:1px solid white;background-color: transparent;color: white;" onchange="view_director_module()">
+                                    <optgroup label='System Default' style='background-color:#D40000;'>
+                                        <option value="Wuxiaworld.com" style="background-color: #0a0a0a;" >Wuxiaworld.com</option>
+                                        <option value="Webnovel.com" style="background-color: #0a0a0a;">Webnovel.com</option>
+                                        <option value="Yougogirl.com" style="background-color: #0a0a0a;">Yougogirl.com</option>
+                                    </optgroup>
+                                    <optgroup label='User Created' style="background-color:#D40000;">
+                                        <option value="Wuxiaworld.com" style="background-color: #0a0a0a;" >Wuxiaworld.com</option>
+                                        <option value="Webnovel.com" style="background-color: #0a0a0a;">Webnovel.com</option>
+                                        <option value="Yougogirl.com" style="background-color: #0a0a0a;">Yougogirl.com</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="width: 100%;height: 20px;text-align: center;color: white;font-size: 16px;margin-top: 13px;">
+                            Turbo mode <img src="imgs/info.png" style="width: 24px;margin-left: 0px;" onclick='alert_box_1(alert_text = "Speeds up processing by disabling images/video/ads/etc on Requested webpages containing book contents, dis-able when experincing issues", "", "", "alert" )'>
+                        </div>
+
+                         
+                        <div style="width: 100%;height: auto;margin-top: 18px;margin-bottom: 35px;font-size: 18px;text-align: center;color:white">
+                           
+                            <label class="switch">
+                                <input type="checkbox" checked id="page_load_turbo_mode">
+                                <span class="slider"></span>
+                            </label>
+                         
+                        </div>
+
+
+                        <div id="chapters_selection_container" style="width:100%;height:auto">
+                            <div style="width: 80%;height: 50px;margin:5px auto;">
+                                <input id="chapter_x_inout" type="checkbox" style="width: 20px; height: 100%;margin: 0px 10px;">
+                                <div style="width: 60%;height: 100%;font-size: 13px;text-align: center;overflow-x: auto;color:white;display: inline-block;vertical-align: top;line-height: 50px;">
+                                    Chapter 1
+                                </div>
+                                <button style="width: 53px;height: 50%;background-color:black;border:1px solid white;border-radius: 23px;vertical-align: top;color: white;margin-top: 13px;float: right;">
+                                    Open
+                                </button>
+                            </div>
+                            <div style="width: 80%;height: 50px;margin:5px auto;">
+                                <input id="chapter_x_inout" type="checkbox" style="width: 20px; height: 100%;margin: 0px 10px;">
+                                <div style="width: 60%;height: 100%;font-size: 13px;text-align: center;overflow-x: auto;color:white;display: inline-block;vertical-align: top;line-height: 50px;">
+                                    Chapter 2
+                                </div>
+                                <button style="width: 53px;height: 50%;background-color:black;border:1px solid white;border-radius: 23px;vertical-align: top;color: white;margin-top: 13px;float: right;">
+                                    Open
+                                </button>
+                            </div>
+                            <div style="width: 80%;height: 50px;margin:5px auto;">
+                                <input id="chapter_x_inout" type="checkbox" style="width: 20px; height: 100%;margin: 0px 10px;">
+                                <div style="width: 60%;height: 100%;font-size: 13px;text-align: center;overflow-x: auto;color:white;display: inline-block;vertical-align: top;line-height: 50px;">
+                                    Chapter 3
+                                </div>
+                                <button style="width: 53px;height: 50%;background-color:black;border:1px solid white;border-radius: 23px;vertical-align: top;color: white;margin-top: 13px;float: right;">
+                                    Open
+                                </button>
+                            </div>
+                            <div style="width: 80%;height: 50px;margin:5px auto;">
+                                <input id="chapter_x_inout" type="checkbox" style="width: 20px; height: 100%;margin: 0px 10px;">
+                                <div style="width: 60%;height: 100%;font-size: 13px;text-align: center;overflow-x: auto;color:white;display: inline-block;vertical-align: top;line-height: 50px;">
+                                    Chapter 4
+                                </div>
+                                <button style="width: 53px;height: 50%;background-color:black;border:1px solid white;border-radius: 23px;vertical-align: top;color: white;margin-top: 13px;float: right;">
+                                    Open
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--  -->
+            <div id="_menu_container" style="width: 80vw;max-width:800px;height: 83vh;min-height:400px;overflow-y: auto;background-color: #3C3A3A;margin: 5% auto;display:none">
+                <div style="width: 80%;height: 40px;margin-left: auto;margin-right: auto;background-color: #696767;color: white;font-weight: 700;font-size: 18px;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;line-height: 40px;padding-left: 12px;text-shadow: 1px 1px black;;">
+                    Convert to Epub
+                    <button style="width:50px;height: 43px;background-color:#D3D3D3;float: right;border: none;"><img src="imgs/Multiply icon.png" style="height: 73px;margin-top: -16px;margin-left: -19px;" onclick="div_hide_show('convert_to_epub_menu_container'),main_menu_upper_layer_hide()"></button>
+                </div>
+                <div id="_menu_contents" style="width: 100%;height:auto;min-height: 90%;background-color: inherit;margin-top: 20px;"></div>
+            
+            </div>
+        </div>
+        <!-- quick navigation -->
+        <div id="quick_navi_container" style="width: 100vw;height: 10vh;position: fixed;bottom: 0px;left: 0px;display: none;z-index: 5;">
+            <div style="width:80vw;height: 2px;background-color: black;margin-left: auto;margin-right: auto;margin-top: 3px;max-width:700px;"></div>
+            <div style="width:100%;min-width: 250px;height:100%;min-height: 85px;text-align: center;max-width: 550px;margin-left: auto;margin-right: auto;">
+                <img src="imgs/Website icon.png" style="height: 35px;margin-right: 12%;" onclick="div_hide_show('menu_window_scroller'),menu_1()">
+                <img src="imgs/Book icon.png" style="height: 33px;margin-right: 12%;">
+                <img src="imgs/Support icon.png" style="height: 41px;margin-right: 12%;">
+                <img src="imgs/Tv icon.png" style="height: 41px;">
+            </div>
+        </div>
+        <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+    </body>
+</html>

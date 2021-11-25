@@ -1,0 +1,56 @@
+
+ // +++++++++++++++++ open pupeteer browser
+    //alow proxy usage function
+-----------
+option to disable javascript
+ await page.on('request', function(req){
+            if(req.resourceType() == 'stylesheet' || req.resourceType() == 'font' || req.resourceType() == 'image' || req.resourceType() == "imageset" || req.resourceType() == "media" ){ //ad more resource types//if page requested contents matche
+
+------------
+
+ //set download request timer. but kinda useless without a proxy
+ ----------
+ figure how to allow login session for pages that are paid
+ ----------
+alert_box_1(alert_text = "File Ready, re-download?<br>No download, enable popup for this site", epub_download(results), "", "confirm" )
+    file downloads un asked
+-----------
+improve pupeteer launching speed
+        
+
+
+        ++++++++++++++++++++++++++++ features
+add pdf
+-------------
+add text to voice
+--------------
+add chapter files download continue, incase of err
+------------
+can have turbo mode user controled for first table of content chapter links scrapping
+--------------
+use https://www.webcomponents.org/polyfills/shadow-dom/
+shadow dom to sandbox the dom from server, best if its can be prevented from requesting external reources, so node console will be clean
+-------------
+add chapter collection resume function when there interference or failure
+----------------
+https://ranobes.net/
+prserve new line when converting to text
+------------------
+find mo effective ways to remove unwanted chars in a name
+static/epubs/The Entire Mankind is Acting As Me... - Chapter 1  Human Observation Program  All of humanity is missing  - Chapter 3: Where Did Everyone Go?! 
+-------------------
+find ways to close browser opened and left opened when chromium browser get error
+
+
++++++++++++++
+
+display driver https://medium.com/@johann.pardanaud/running-electron-on-heroku-db3866a690a3 (xvfb) 
+
+npm i xvfb
+
+sudo apt-get install xvfb
+
+working on cloud run : https://stackoverflow.com/questions/51883055/running-puppeteer-with-xfvb-headless-false Solution by : (You seem to be trying to use the Xvfb node module. While the other answers definitely work, here's a snippet that works fully within nodejs)
+libm error : install : 
+        sudo apt-get update
+        sudo apt-get install -y libgbm-dev
